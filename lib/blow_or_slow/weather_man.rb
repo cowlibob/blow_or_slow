@@ -46,9 +46,9 @@ module BlowOrSlow
         if tr.children.first.text =~ time_filter(time)
           values = tr.children.collect(&:text)
           @report << {
-            time: values[@columns[:time]].split.first,
-            direction: values[@columns[:direction]].split.first,
-            magnitude: values[@columns[:magnitude]].split.first.to_f
+            :time => values[@columns[:time]].split.first,
+            :direction => values[@columns[:direction]].match(/\((\d*)\W*\)/)[1].to_i,
+            :magnitude => values[@columns[:magnitude]].split.first.to_f
           }
 
         end

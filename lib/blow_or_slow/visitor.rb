@@ -11,7 +11,7 @@ module BlowOrSlow
     def get(date)
       @date = date
 
-      response = RestClient.get url, {params: {s: @site_id, date: @date, units: 'us'}}
+      response = RestClient.get url, {:params => {:s => @site_id, :date => @date, :units => 'us'}}
       response.body
     end
 

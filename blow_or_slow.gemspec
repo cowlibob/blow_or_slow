@@ -8,8 +8,8 @@ Gem::Specification.new do |gem|
   gem.version       = BlowOrSlow::VERSION
   gem.authors       = ["James Cowlishaw"]
   gem.email         = ["james@cowlibob.co.uk"]
-  gem.description   = %q{TODO: Write a gem description}
-  gem.summary       = %q{TODO: Write a gem summary}
+  gem.description   = %q{Scrapes weather observations from weatherbase.com, returning wind direction & strength}
+  gem.summary       = %q{}
   gem.homepage      = ""
 
   gem.files         = `git ls-files`.split($/)

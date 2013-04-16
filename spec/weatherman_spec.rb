@@ -1,36 +1,39 @@
 require 'spec_helper'
+require 'blow_or_slow'
 
-require 'weather_man'
-require 'visitor'
 
 describe BlowOrSlow::WeatherMan do
 
   before(:all) do
-    @visitor = BlowOrSlow::Visitor.new
-    @html = @visitor.get(Date.parse('2012-12-26'))
+    @key = '6c3c695fbc7b7cc89be3b95597bfe791'
+    @position = { :lat => '52.59748452', :long => '-1.995865713' }
+    @options = {}
+    @race_start = DateTime.new(2012, 12, 26, 12, 0)
+    @visitor = BlowOrSlow::Visitor.new(@position, @key, @options)
+    @html = @visitor.get(@race_start)
     
     @weatherman = BlowOrSlow::WeatherMan.new(@html)
   end
 
   it "returns an array from report" do
-    report = @weatherman.report('12:00')
+    report = @weatherman.report(@race_start)
     report.should be_a_kind_of(Enumerable)
   end
    
   describe BlowOrSlow::Report do
     before(:all) do
-      @report = @weatherman.report('12:00 PM')
+      @report = @weatherman.report(@race_start)
     end
 
     it "should identify nearest time" do
-      @report.first[:time].should eq '12:20'
+      @report.first[:time].should eq 1356523200
     end
 
     it "should contain one or more status" do
-      @report.count.should eq 2
+      @report.count.should eq 1
 
-      @report.first[:direction].should eq 240
-      @report.first[:magnitude].should eq 15.0
+      @report.first[:direction].should eq 208
+      @report.first[:magnitude].should eq 9.59
     end
   end
 
@@ -43,11 +46,11 @@ describe BlowOrSlow::WeatherMan do
       @weatherman.report('james')
     }.to raise_error('Invalid time')
 
-    @weatherman.report('12:00')
+    @weatherman.report(@race_start)
   end
 
-  it "should produce a regexp in response to time_filter" do
-    @weatherman.send(:time_filter, '12:00').should eq /^12:\d\d/
-  end
+  # it "should produce a regexp in response to time_filter" do
+  #   @weatherman.send(:time_filter, '12:00').should eq /^12:\d\d/
+  # end
 
 end

@@ -4,13 +4,21 @@ require "blow_or_slow/weather_man"
 require "blow_or_slow/report"
 
 module BlowOrSlow
-  def self.report_for(date_time)
+
+  def self.report_for(date_time, position, key, logger)
     raise "Invalid parameter" unless date_time.respond_to? :strftime
 
-    visitor = BlowOrSlow::Visitor.new
-    html = visitor.get(date_time.strftime("%Y-%m-%d"))
+    options = {}
+    options[:units] = :uk
+    visitor = BlowOrSlow::Visitor.new(position, key, options)
+    json = visitor.get(date_time) 
     
-    weatherman = BlowOrSlow::WeatherMan.new(html)
-    weatherman.report(date_time.strftime("%H:%M %p"))
+    weatherman = BlowOrSlow::WeatherMan.new(json)
+    begin
+      weatherman.report(date_time)
+    rescue StandardError => e
+      logger.info(visitor.url)
+      logger.warn(e.message)
+    end
   end
 end

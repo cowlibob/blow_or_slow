@@ -3,22 +3,22 @@ require 'rest_client'
 
 module BlowOrSlow
   class Visitor
-    def initialize
-      @site_id = 33451
-      @base_url = "http://www.weatherbase.com/weather/weatherhourly.php3"
+    def initialize position, key, options
+      @position = position
+      @api_key = key
+      @options = options || {}
+      @base_url = "https://api.forecast.io/forecast/#{@api_key}/#{@position[:lat]},#{@position[:long]}"
     end
 
     def get(date)
       @date = date
 
-      response = RestClient.get url, {:params => {:s => @site_id, :date => @date, :units => 'us'}}
+      response = RestClient.get url, { :params => @options }
       response.body
     end
 
     def url
-      base = "http://www.weatherbase.com/weather/weatherhourly.php3?s=33451&date=#{@date}"
-      
-      base
+      @base_url + ",#{@date.to_time.to_i}"
     end
 
   end

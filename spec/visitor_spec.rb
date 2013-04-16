@@ -1,20 +1,28 @@
 require 'spec_helper'
+require 'json'
 require 'visitor'
 
 module BlowOrSlow
   describe Visitor do
+    before(:all) do
+      @key = '6c3c695fbc7b7cc89be3b95597bfe791'
+      @position = { :lat => '52.59748452', :long => '-1.995865713' }
+      @options = {}
+    end
+
     it "returns an HTML document when given a date and location" do
-      visitor = Visitor.new
+      visitor = Visitor.new(@position, @key, @options)
       
-      html = visitor.get(Date.parse('2012-12-26'))
-      html.should be_a_kind_of(String)
-      html.should include('Crookes')
+      json = visitor.get(Date.parse('2012-12-26'))
+      json.should be_a_kind_of(String)
+      data = JSON.parse(json)
+      data.should be_a_kind_of(Hash)
     end
 
     it "generates a weatherbase URL when given a date and location" do
-      visitor = Visitor.new
+      visitor = Visitor.new(@position, @key, @options)
       visitor.get(Date.parse('2012-12-26'))
-      visitor.url.should == 'http://www.weatherbase.com/weather/weatherhourly.php3?s=33451&date=2012-12-26'
+      visitor.url.should == 'https://api.forecast.io/forecast/6c3c695fbc7b7cc89be3b95597bfe791/52.59748452,-1.995865713,1356480000'
     end
   end
 

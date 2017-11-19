@@ -17,7 +17,7 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
-  gem.add_dependency "rest-client", "~> 1.6.7"
+  gem.add_dependency "rest-client", "~> 2.0.2"
   gem.add_dependency "json_pure", "~> 1.7.7"
   #gem.add_dependency "nokogiri", "~> 1.5.6"
   gem.add_development_dependency "rake", "~> 12.3.0"

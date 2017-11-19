@@ -20,9 +20,9 @@ Gem::Specification.new do |gem|
   gem.add_dependency "rest-client", "~> 1.6.7"
   gem.add_dependency "json_pure", "~> 1.7.7"
   #gem.add_dependency "nokogiri", "~> 1.5.6"
+  gem.add_development_dependency "rake", "~> 12.3.0"
   gem.add_development_dependency "webmock", "~> 1.9.0"
   gem.add_development_dependency "rspec", "~> 2.12"
   gem.add_development_dependency "ephemeral_response", "~> 0.4.0"
-  gem.add_development_dependency "activesupport", "~> 2.3.16"
-  gem.add_development_dependency "pry"
+  gem.add_development_dependency "activesupport", "~> 5.0.0"
 end

@@ -8,7 +8,8 @@ describe BlowOrSlow::WeatherMan do
     @key = '6c3c695fbc7b7cc89be3b95597bfe791'
     @position = { :lat => '52.59748452', :long => '-1.995865713' }
     @options = {}
-    @race_start = DateTime.new(2012, 12, 26, 12, 0)
+    #@race_start = DateTime.new(2012, 12, 26, 12, 0)
+    @race_start = DateTime.parse("Wed, 26 Dec 2012 12:00:00 +0000")
     @visitor = BlowOrSlow::Visitor.new(@position, @key, @options)
     @html = @visitor.get(@race_start)
     
@@ -33,7 +34,7 @@ describe BlowOrSlow::WeatherMan do
       @report.count.should eq 1
 
       @report.first[:direction].should eq 208
-      @report.first[:magnitude].should eq 9.59
+      @report.first[:magnitude].should eq 8.58
     end
   end
 

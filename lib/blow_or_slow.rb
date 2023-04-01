@@ -5,15 +5,22 @@ require "blow_or_slow/report"
 
 module BlowOrSlow
 
-  def self.report_for(date_time, position, key, logger)
+  def self.report_for(date_time, position, key, logger, options = {})
     raise "Invalid parameter" unless date_time.respond_to? :strftime
 
-    options = {}
     options[:units] = :uk
     visitor = BlowOrSlow::Visitor.new(position, key, options)
     json = visitor.get(date_time) 
-    
-    weatherman = BlowOrSlow::WeatherMan.new(json)
+    jard
+    weatherman = case options[:api]
+                 when :darkskies
+                   BlowOrSlow::WeatherMan::DarkSkies.new(json)
+                 when :metoffice
+                   BlowOrSlow::WeatherMan::MetOffice.new(json)
+                 else
+                   raise "Unknown api"
+                 end
+
     begin
       weatherman.report(date_time)
     rescue StandardError => e

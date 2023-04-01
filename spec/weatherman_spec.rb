@@ -7,13 +7,13 @@ describe BlowOrSlow::WeatherMan do
   before(:all) do
     @key = '6c3c695fbc7b7cc89be3b95597bfe791'
     @position = { :lat => '52.59748452', :long => '-1.995865713' }
-    @options = {}
+    @options = {api: :darkskies}
     #@race_start = DateTime.new(2012, 12, 26, 12, 0)
     @race_start = DateTime.parse("Wed, 26 Dec 2012 12:00:00 +0000")
     @visitor = BlowOrSlow::Visitor.new(@position, @key, @options)
     @html = @visitor.get(@race_start)
     
-    @weatherman = BlowOrSlow::WeatherMan.new(@html)
+    @weatherman = BlowOrSlow::WeatherMan::DarkSkies.new(@html)
   end
 
   it "returns an array from report" do
@@ -33,8 +33,8 @@ describe BlowOrSlow::WeatherMan do
     it "should contain one or more status" do
       @report.count.should eq 1
 
-      @report.first[:direction].should eq 208
-      @report.first[:magnitude].should eq 8.58
+      @report.first[:direction].should eq 219
+      @report.first[:magnitude].should eq 3.19
     end
   end
 
